@@ -1,29 +1,23 @@
-import './App.css';
-import { useState } from 'react';
-import 'leaflet/dist/leaflet.css';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-const queryClient = new QueryClient()
+import "./App.css";
+import { useState } from "react";
+import "leaflet/dist/leaflet.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
 
-import Map from './components/Map/Map';
+import Map from "./components/Map/Map";
+import InputComponent from "./components/InputComponent/InputComponent";
 
 function App() {
-  const [coordinateLeft, setCoordinateLeft] = useState('')
-  const [coordinateRight, setCoordinateRight] = useState('')
+  const [dataInfo, setDataInfo] = useState({});
 
   return (
     <>
-   <QueryClientProvider client={queryClient}>
-      <Map />
+      <QueryClientProvider client={queryClient}>
+        <InputComponent setDataInfo={setDataInfo} />
+        <Map dataInfo={dataInfo} />
       </QueryClientProvider>
     </>
   );
 }
-
 
 export default App;
