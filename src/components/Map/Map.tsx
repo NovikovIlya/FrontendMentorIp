@@ -7,10 +7,11 @@ import { useAppSelector } from "../../hooks/redux";
 function Map() {
   const { data } = useAppSelector((state) => state.todoSlice);
 
-  const [position, setposition] = useState([51.505, -0.09]);
+  const [position, setPosition] = useState<[number, number]>([51.505, -0.09]);
+
   useEffect(() => {
     if (data) {
-      setposition([data.location.lat, data.location.lng]);
+      setPosition([data.location.lat, data.location.lng]);
     }
   }, [data]);
 
@@ -18,8 +19,7 @@ function Map() {
     <>
       {data && (
         <MapContainer
-           {/* @ts-ignore */}
-          center={position}
+          center={position as [number, number]}
           zoom={13}
           scrollWheelZoom={false}
           key={position[0].toString()}
@@ -28,7 +28,7 @@ function Map() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-           {/* @ts-ignore */}
+          {/* @ts-ignore */}
           <Marker position={position}>
             <Popup>
               A pretty CSS3 popup. <br /> Easily customizable.
