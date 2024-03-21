@@ -7,7 +7,6 @@ const InputComponent = ({ setDataInfo }: any) => {
   const { refetch, data, isError, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: () => fetchIp(),
-    enabled: false,
   });
   const fetchIp = async () => {
     try {
@@ -34,7 +33,9 @@ const InputComponent = ({ setDataInfo }: any) => {
     <div>
       <input onChange={handleInput} />
       <button onClick={hanldeClick}>Submit</button>
-      <div></div>
+      <div>
+        <div>{data?.ip}</div>
+      </div>
     </div>
   );
 };
