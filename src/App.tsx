@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -7,6 +7,9 @@ import { useMap } from 'react-leaflet/hooks';
 import { Marker, Popup, TileLayer, MapContainer } from 'react-leaflet';
 
 function App() {
+  const [coordinateLeft,setCoordinateLeft] = useState('')
+  const [coordinateRight,setCoordinateRight] = useState('')
+  
   return (
     <>
       <div className='ss'>
