@@ -6,3 +6,9 @@
   width: 1200px;
   height: 600px;
 }
+
+@media screen and (max-width:600px) {
+    .leaflet-container{
+      width: 100%;
+    }
+}
