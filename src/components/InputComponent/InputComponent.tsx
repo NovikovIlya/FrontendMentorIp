@@ -26,27 +26,32 @@ const InputComponent = () => {
     }
   };
 
-  const handleInput = (e) => {
+  const handleInput = (e:any) => {
     setText(e.target.value);
   };
 
   const hanldeClick = () => {
+    console.log(text)
+    if(text === '' || text.length < 14){
+      alert('Enter ip!')
+      return
+    }
     refetch();
   };
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return <div className={styles.load}><div className={styles.ldsring}><div></div><div></div><div></div><div></div></div></div>;
   }
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <span>Error</span>;
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>IP adress tracker</div>
       <div className={styles.input}>
-        <input placeholder="Enter IP adress" onChange={handleInput} />
-        <button onClick={hanldeClick}>Submit</button>
+        <input className={styles.miniInp} placeholder="Enter IP adress" onChange={handleInput} />
+        <button className={styles.btn} onClick={hanldeClick}>&gt;</button>
       </div>
 
       {data ? (
