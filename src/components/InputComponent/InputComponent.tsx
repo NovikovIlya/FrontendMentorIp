@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { setData } from "../../store/todoSlice";
 import styles from "./InputComponent.module.css";
 
-const InputComponent = ({ setDataInfo }: any) => {
+const InputComponent = () => {
   const [text, setText] = useState("178.238.11.6");
   const dispatch = useAppDispatch();
 
@@ -18,7 +18,7 @@ const InputComponent = ({ setDataInfo }: any) => {
         `https://geo.ipify.org/api/v2/country,city?apiKey=at_9RcjRUHmfnLODI8HcU5J5dxf2vAo9&ipAddress=${text}`,
       );
       const data = await response.json();
-      setDataInfo(data.location);
+
       dispatch(setData(data));
       return data;
     } catch (error) {
@@ -34,15 +34,21 @@ const InputComponent = ({ setDataInfo }: any) => {
     refetch();
   };
 
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
   return (
     <div className={styles.container}>
-      <div>IP adress tracker</div>
-      <div>
+      <div className={styles.title}>IP adress tracker</div>
+      <div className={styles.input}>
         <input placeholder="Enter IP adress" onChange={handleInput} />
         <button onClick={hanldeClick}>Submit</button>
       </div>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error</div>}
+
       {data ? (
         <>
           <div className={styles.info}>
