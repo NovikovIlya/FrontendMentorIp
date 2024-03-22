@@ -6,11 +6,13 @@ import styles from "./InputComponent.module.css";
 
 const InputComponent = () => {
   const [text, setText] = useState("178.238.11.6");
+  const [isMy,setIsMy] = useState(false)
   const dispatch = useAppDispatch();
 
   const { refetch, data, isError, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: () => fetchIp(),
+    refetchOnWindowFocus:false,
   });
   const fetchIp = async () => {
     try {
@@ -37,7 +39,29 @@ const InputComponent = () => {
       return
     }
     refetch();
+    setIsMy(false)
   };
+  function showPosition(position:any) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    const data = {
+      location:{
+        lat:lat,
+        lng:lon,
+      }
+    }
+    dispatch(setData(data))
+    setIsMy(true)
+    console.log(position)
+  }
+  function getLocation() {
+    // Если геолокация поддерживается браузером
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      alert("Геолокация не поддерживается.")
+    }
+  }
 
   if (isLoading) {
     return <div className={styles.load}><div className={styles.ldsring}><div></div><div></div><div></div><div></div></div></div>;
@@ -49,12 +73,13 @@ const InputComponent = () => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>IP adress tracker</div>
+      <button className={styles.btnMy} onClick={getLocation}>Get my geolocation</button>
       <div className={styles.input}>
         <input className={styles.miniInp} placeholder="Enter IP adress" onChange={handleInput} />
         <button className={styles.btn} onClick={hanldeClick}>&gt;</button>
       </div>
 
-      {data ? (
+      {data ? isMy===false &&(
         <>
           <div className={styles.info}>
             <div className={styles.border}>
